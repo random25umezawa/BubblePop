@@ -8,10 +8,10 @@ import java.io.FileWriter;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import ddf.minim.*;
+//import ddf.minim.*;
 
-Minim minim;
-AudioPlayer snd[];
+//Minim minim;
+//AudioPlayer snd[];
 
 ArrayList stage;
 ArrayList History;
@@ -68,7 +68,7 @@ boolean isTest = false;
 float RateX, RateY;
 int screenPreWidth = 0, screenPreHeight = 0;
 int StageAction = 0;
-String[] StageActionDescription = 
+String[] StageActionDescription =
   {"Play Mode", "Edit Mode", "Move Right", "Move Left", "*Remove* Mode"};
 int SavedAnime = 0;
 

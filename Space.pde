@@ -93,24 +93,24 @@ class Space {
       else Buf.Anime = constrain(Buf.Anime - 1, 0, AnimeTime);
       Buf.Update(AnimeTime);
       moveX = moveY = 0;
-      
+
       if(selectID == n) {
         AnimeMove += 4f * RateY;
-        
+
         if(AnimeMove >= r) {
           AnimeMove = 0;
           ((Number) List.get(selectID)).x += directionX(MoveDirection);
           ((Number) List.get(selectID)).y += directionY(MoveDirection);
-          
+
         }
         moveX = directionX(MoveDirection) * AnimeMove;
         moveY = directionY(MoveDirection) * AnimeMove;
-        
+
         for(int i = 0; i < List.size(); i++) {
           if(i != n) {
             if(dist(moveX + ListX(n), moveY + ListY(n), ListX(i), ListY(i)) < 1f  * RateY) {
               Number Target = (Number) List.get(i);
-              
+
               Buf.num = ((MoveDirection % 2 == 0) ^ Buf.isTurn) ? (Buf.num + Target.num) : (Buf.num * Target.num);
               Buf.AddedTime++; //Animation Process
               Buf.x = Target.x; Buf.y = Target.y; moveX = moveY = 0;
@@ -119,10 +119,10 @@ class Space {
               List.set(n, (Number) Buf);
               AnimeMove = 0;
               moveFlag = true;
-              snd[3].play();
-              snd[3].cue(100);
+              //snd[3].play();
+              //snd[3].cue(100);
               if(currentHistory < History.size() && History.size() != 0) {
-                for(int np = History.size(); np > currentHistory; np--) { 
+                for(int np = History.size(); np > currentHistory; np--) {
                   History.remove(np - 1);
                 }
               }
@@ -144,8 +144,8 @@ class Space {
     }
     return moveFlag;
   }
-  
-  
+
+
   void afterProcess() {
     for(int n = 0; n < List.size(); n++) {
       ((Number) List.get(n)).afterProcess();
@@ -191,7 +191,7 @@ class Space {
     Buf = (Number) List.get(id);
     return (Buf.isLocked);
   }
-  
+
   int Anime (int id) {
     if(id < 0 || List.size() <= id) return 0;
     Number Buf;
@@ -226,7 +226,7 @@ class Space {
   }
   boolean direction(int directID, int id) {
     if(id < 0 || List.size() <= id) return false;
-    
+
     Number Target = (Number) List.get(id), Buf;
     if((Target.isLocked)) return false;
     for(int n = 0; n < List.size(); n++) {
@@ -303,7 +303,7 @@ class Space {
     Init = (Number) List.get(0);
     int leftX = Init.x, rightX = Init.x;
     int topY = Init.y, bottomY = Init.y;
-    
+
     for(int n = 0; n < List.size(); n++) {
       Number Buf = (Number) List.get(n);
       leftX = min(leftX, Buf.x);
@@ -311,26 +311,26 @@ class Space {
       topY = min(topY, Buf.y);
       bottomY = max(bottomY, Buf.y);
     }
-    
+
     x = width * .5f;
     y = height * .55f;
     r = 64f * RateY;
     if(64f * RateY * (rightX - leftX) > width * 0.8f ) {
       r = min( r, width * 0.8f / (rightX - leftX) );
     }
-    
+
     if(64f * RateY * (bottomY - topY) > height * 0.6f ) {
       r = min( r, height * 0.6f / (bottomY - topY) );
     }
-    
+
     x -= r * (rightX - leftX) / 2f;
     y -= r * (bottomY - topY) / 2f;
-    
+
     for(int n = 0; n < List.size(); n++) {
       ((Number) List.get(n)).x -= leftX;
       ((Number) List.get(n)).y -= topY;
-      
+
     }
-    
+
   }
 }

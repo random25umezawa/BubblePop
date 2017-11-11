@@ -4,7 +4,7 @@ android {
     compileSdkVersion 26
     buildToolsVersion "26.0.2"
     defaultConfig {
-        applicationId "processing.test.bubblepop"
+        applicationId "com.sugi.sketch"
         minSdkVersion 17
         targetSdkVersion 26
         versionCode 1
@@ -22,9 +22,6 @@ android {
         }
     }
 }
-
-sourceCompatibility = '1.8'
-targetCompatibility = '1.8'
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')

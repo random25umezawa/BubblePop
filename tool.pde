@@ -3,7 +3,7 @@ void setBarRGB(color Color) {
   cp5.getController("RedBar").setValue(int(red(Color)));
   cp5.getController("GreenBar").setValue(int(green(Color)));
   cp5.getController("BlueBar").setValue(int(blue(Color)));
-        
+
 }
 
 color MixColor(float rate, color baseColor, color mixColor) {
@@ -15,7 +15,7 @@ color MixColor(float rate, color baseColor, color mixColor) {
 void IndexSort() {
   //統括ファイルに追加
   try {
-    BufferedWriter file = new BufferedWriter(new FileWriter(dataPath("") + "//setting/data.dat", false));
+    BufferedWriter file = new BufferedWriter(new FileWriter("data.dat", false));
     for(int k = 0; k < stage.size(); k++) {
       file.write(((Space) stage.get(k)).comment + ".dat");
       file.newLine();
@@ -24,7 +24,7 @@ void IndexSort() {
   } catch (IOException e) {
     e.printStackTrace();
   }
-  
+
   FileLoad();
 }
 
@@ -35,25 +35,25 @@ void FileLoad() {
   History = new ArrayList();
   currentHistory = 0;
   isValidHistory = false;
-  
-  fileOver = loadStrings(dataPath("") + "//setting/data.dat");
-  
+
+  fileOver = loadStrings("data.dat");
+
   for(int fileNum = 0; fileNum < fileOver.length; fileNum++){
     //１ファイル読み込み
     if(fileOver[fileNum].equals("")) continue;
     try {
-      reader = loadStrings(dataPath("") + "//setting/" + fileOver[fileNum]);
+      reader = loadStrings(fileOver[fileNum]);
     } catch(Exception e) {
       continue;
     }
-    
+
     String lineString;
     Space fileSpace = new Space();
     int lineNum = 0;
     int entry = -1;
     String[] heading = { "[comment]", "[color]", "[number]", "[hint]" };
     boolean isChanged = false;
-    
+
     while(true) {
       try {
         lineString = reader[lineNum];
@@ -62,14 +62,14 @@ void FileLoad() {
       }
       println(lineString);
       isChanged = false;
-      
+
       for(int n = 0; n < heading.length; n++) {
         if(lineString.equals(heading[n])) { entry = n; lineNum++; isChanged = true; break; }
       }
       if(isChanged) {
         continue;
       }
-      
+
       //println(lineString);
       String[] comp = split(lineString, ", ");
       switch(entry) {
@@ -106,7 +106,7 @@ void LeftMenu() {
   //左メニュー
   {
     String MenuText[] = {"Undo", "Reset", "Redo", "Hint"};
-    
+
     pushStyle();
     for(int n = 0; n < 4; n++) {
       noStroke();
@@ -121,12 +121,12 @@ void LeftMenu() {
           noStroke();
           fill(space.Color[9 - n]);
           boxText(MenuText[n], menuRadius, mouseY, int(12 * RateY), 0, space.Color[9 - n]);
-         
+
         }
       }
       ellipse(map(constrain(AnimeMenuLeft - space.AnimeTime / 4f * n, 0, space.AnimeTime / 4f), 0, space.AnimeTime / 4f, - menuRadius / 2f, menuRadius / 2f),
         height - menuRadius * (float(n) + 0.5f), menuRadius * 0.6f, menuRadius * 0.6f);
-      
+
       noStroke();
       fill(255);
       switch(n) {
@@ -135,7 +135,7 @@ void LeftMenu() {
             height - menuRadius * (float(n) + 0.5f), menuRadius * 0.15f, radians(0));
           break;
         case 1:
-          
+
           square(map(constrain(AnimeMenuLeft - space.AnimeTime / 4f * n, 0, space.AnimeTime / 4f), 0, space.AnimeTime / 4f, - menuRadius / 2f, menuRadius / 2f),
             height - menuRadius * (float(n) + 0.5f), menuRadius * 0.15f, radians(45));
           break;
@@ -149,8 +149,8 @@ void LeftMenu() {
             height - menuRadius * (float(n) + 0.5f), menuRadius * 0.15f, radians(0));
           break;
       }
-      
-      
+
+
       pushStyle();
         textAlign(RIGHT, BOTTOM);
         textSize(18 * RateY);
@@ -158,16 +158,16 @@ void LeftMenu() {
         noStroke();
         text("History : " + currentHistory + " / " + History.size(), width + map(AnimeMenuLeft, 0, space.AnimeTime, width * .4f, 0) * RateY, height);
       popStyle();
-      
+
       if(AnimeMenuLeft == space.AnimeTime / 2f) {
-        snd[6].play();
-        snd[6].cue(100);
+        //snd[6].play();
+        //snd[6].cue(100);
       }
     }
     popStyle();
     if(isOverMenuLeft) {
       if(mouseX > menuRadius) isOverMenuLeft = false;
-      
+
       AnimeMenuLeft = constrain(AnimeMenuLeft + 1, 0, space.AnimeTime);
     } else {
       if(mouseX < menuRadius || mouseStop > 60) {
@@ -176,7 +176,7 @@ void LeftMenu() {
         AnimeMenuLeft = constrain(AnimeMenuLeft - 1, 0, space.AnimeTime);
       }
     }
-    
+
   }
 }
 
@@ -184,7 +184,7 @@ void RightMenu() {
   //右メニュー
   {
     String MenuText[] = {"Back", "Home", "Next"};
-    
+
     pushStyle();
     for(int n = 0; n < 3; n++) {
       noStroke();
@@ -199,12 +199,12 @@ void RightMenu() {
           noStroke();
           fill(space.Color[n]);
           boxTextRight(MenuText[n], width - menuRadius * 1.0f, mouseY, int(12 * RateY), 0, space.Color[n]);
-          
+
         }
       }
       ellipse(width - map(constrain(AnimeMenuRight - space.AnimeTime / 3f * n, 0, space.AnimeTime / 3f), 0, space.AnimeTime / 3f, - menuRadius / 2f, menuRadius / 2f),
         height - menuRadius * (float(n) + 0.5f), menuRadius * 0.6f, menuRadius * 0.6f);
-      
+
       noStroke();
       fill(255);
       switch(n) {
@@ -214,7 +214,7 @@ void RightMenu() {
             height - menuRadius * (float(n) + 0.5f), menuRadius * 0.15f, radians(180));
           break;
         case 1:
-          
+
           home(width - map(constrain(AnimeMenuRight - space.AnimeTime / 3f * n, 0, space.AnimeTime / 3f), 0, space.AnimeTime / 3f, - menuRadius / 2f, menuRadius / 2f),
             height - menuRadius * (float(n) + 0.5f), menuRadius * 0.15f, radians(0));
           break;
@@ -224,16 +224,16 @@ void RightMenu() {
             height - menuRadius * (float(n) + 0.5f), menuRadius * 0.15f, radians(0));
           break;
       }
-      
+
       if(AnimeMenuRight == space.AnimeTime / 2f) {
-        snd[6].play();
-        snd[6].cue(100);
+        //snd[6].play();
+        //snd[6].cue(100);
       }
     }
     popStyle();
     if(isOverMenuRight) {
       if(mouseX < width - menuRadius) isOverMenuRight = false;
-      
+
       AnimeMenuRight = constrain(AnimeMenuRight + 1, 0, space.AnimeTime);
     } else {
       if(mouseX > width - menuRadius || mouseStop > 60) {

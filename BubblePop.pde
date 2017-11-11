@@ -9,8 +9,8 @@ void setup() {
   //fullScreen(P2D, 2);
   RateX = float(width) / 480f;
   RateY = float(height) / 320f;
-  
-  
+
+  /*
   frame.setResizable(true);
   frame.addComponentListener(new ComponentAdapter() {
     public void componentResized(ComponentEvent e) {
@@ -20,33 +20,34 @@ void setup() {
     }
   }
   );
-  
+  */
+
   //音声読み込み
-  String soundPath = dataPath("") + "//sound/";
-  minim = new Minim(this);
-  snd = new AudioPlayer[16];
-  snd[0] = minim.loadFile(soundPath + "swipe.mp3");
-  snd[1] = minim.loadFile(soundPath + "clear.mp3");
-  snd[2] = minim.loadFile(soundPath + "failed.mp3");
-  snd[3] = minim.loadFile(soundPath + "marge.mp3");
-  snd[4] = minim.loadFile(soundPath + "pop.mp3");
-  snd[5] = minim.loadFile(soundPath + "select.mp3");  snd[5].setGain(-5);
-  snd[6] = minim.loadFile(soundPath + "menu.mp3");
-  snd[7] = minim.loadFile(soundPath + "menupress.mp3");
-  snd[8] = minim.loadFile(soundPath + "seaselect.mp3");  snd[8].setGain(-10);
-  snd[9] = minim.loadFile(soundPath + "seaswitch.mp3");
-  snd[10] = minim.loadFile(soundPath + "title.mp3"); snd[10].cue(200);
-  snd[11] = minim.loadFile(soundPath + "stageselect.mp3");
-  
+  //String soundPath = dataPath("") + "//sound/";
+  //minim = new Minim(this);
+  //snd = new AudioPlayer[16];
+  //snd[0] = minim.loadFile(soundPath + "swipe.mp3");
+  //snd[1] = minim.loadFile(soundPath + "clear.mp3");
+  //snd[2] = minim.loadFile(soundPath + "failed.mp3");
+  //snd[3] = minim.loadFile(soundPath + "marge.mp3");
+  //snd[4] = minim.loadFile(soundPath + "pop.mp3");
+  //snd[5] = minim.loadFile(soundPath + "select.mp3");  //snd[5].setGain(-5);
+  //snd[6] = minim.loadFile(soundPath + "menu.mp3");
+  //snd[7] = minim.loadFile(soundPath + "menupress.mp3");
+  //snd[8] = minim.loadFile(soundPath + "seaselect.mp3");  //snd[8].setGain(-10);
+  //snd[9] = minim.loadFile(soundPath + "seaswitch.mp3");
+  //snd[10] = minim.loadFile(soundPath + "title.mp3"); //snd[10].cue(200);
+  //snd[11] = minim.loadFile(soundPath + "stageselect.mp3");
+
   //画像
   help = new PImage[7];
   for(int n = 0; n < 7; n++) {
-    help[n] = loadImage(dataPath("") + "//help/00" + (n + 1) + ".png");
+    help[n] = loadImage("00" + (n + 1) + ".png");
   }
-  
+
   //GUI読み込み
   cp5 = new ControlP5(this);
-  
+
   cp5.addSlider("RedBar")
     .setLabel("R")
     .setPosition(10, 10)
@@ -86,7 +87,7 @@ void setup() {
     .setColorValue(color(255))
     .hide()
     ;
-  
+
   cp5.addTextfield("Title")
     .setLabelVisible(false)
     .setLabel("")
@@ -98,7 +99,7 @@ void setup() {
     .setColor(color(255))
     .hide()
     ;
-  
+
   Edit = new Space(0f, 0f, 32f, color(0), color(0));
   Board = new Space(width * 0.02f + width * .82 / 9f * 0.4f, height * .9f, width * .82f / 9f, color(0), color(0));
   for(int n = 1; n < 10; n++) Board.List.add( new Number(n, n - 1, 0, false, false));
@@ -107,9 +108,9 @@ void setup() {
   Board.List.add(new Number(1, 0, -1, false, true));
   Board.List.add(new Number(1, 0, -2, true, false));
   Board.List.add(new Number(1, 0, -3, false, false));
-  
+
   FileLoad();
-  
+
 }
 
 boolean isChangedScreen() {
@@ -119,9 +120,11 @@ boolean isChangedScreen() {
 }
 
 void stop() {
-  for(AudioPlayer Buf: snd) {
+  /*
+  for(AudioPlayer Buf: //snd) {
     Buf.close();
   }
   minim.stop();
   super.stop();
+  */
 }

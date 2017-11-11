@@ -1,12 +1,12 @@
 
 void draw() {
   if(mouseStopX == mouseX && mouseStopY == mouseY) mouseStop++;
-  else { 
+  else {
     mouseStop = 0;
     mouseStopX = mouseX;
     mouseStopY = mouseY;
   }
-  
+
   if(isChangedScreen()) {
     RateX = float(width) / 480f;
     RateY = float(height) / 320f;
@@ -35,12 +35,12 @@ void draw() {
     Select.y = 120 * RateY;
     Select.r = min(width * .82f / 9f, height * .5f / 4f);
   }
-  
+
   background(255);
   switch(mode) {
     case 0:
       //タイトル
-      
+
       stroke(0, 60 + 30 * cos(radians(AnimeTitle)), 150 + 100 * cos(radians(AnimeTitle * 2)),
         map(constrain(AnimeTitle, 0, 600), 0, 600, 0, 255));
       strokeWeight(2);
@@ -73,11 +73,11 @@ void draw() {
           isValidHistory = false;
         }
       }
-      
+
       break;
     case 1:
       //セレクト
-      
+
       //make color
       int selectNumber = constrain(selectSea, 0, seaColor.length - 1);
       color primeColor = color(red(seaColor[selectNumber]) + red(seaWideColor[selectNumber]) * cos(radians(frameCount)),
@@ -86,7 +86,7 @@ void draw() {
       color secondColor = color(red(seaColor[selectNumber]) + red(seaWideColor[selectNumber]) * -cos(radians(frameCount)),
         green(seaColor[selectNumber]) + green(seaWideColor[selectNumber]) * -cos(radians(frameCount)),
         blue(seaColor[selectNumber]) + blue(seaWideColor[selectNumber]) * -cos(radians(frameCount)));
-      
+
       //buttons
       fill(255);
       textSize(48 * RateY);
@@ -95,12 +95,12 @@ void draw() {
       text("<", width * .1f - 2f * RateY, height * .6f - 8f * RateY);
       button(width * .9f, height * .6f, 24f * RateY, primeColor, secondColor);
       text(">", width * .9f + 2f * RateY, height * .6f - 8f * RateY);
-      
-      if(button(width * .1f, height * .9f, 18f * RateY, primeColor, secondColor)) 
+
+      if(button(width * .1f, height * .9f, 18f * RateY, primeColor, secondColor))
         boxText("Help Me!", width * .05f, height * .75f, int(12 * RateY), 0, secondColor);
       textSize(24 * RateY);
       text("?", width * .1f, height * .9f - 2f * RateY);
-      
+
       fill(primeColor);
       noStroke();
       polygon(3, width * 0.1f + 24f * RateY * cos(radians(frameCount)), height * 0.90f + 24f * RateY * sin(radians(frameCount)),
@@ -109,15 +109,15 @@ void draw() {
       stroke(primeColor);
       arc(width * 0.1f, height * 0.90f,
         22f * RateY, 22f * RateY, radians(10 + frameCount), radians(360 - 10 + frameCount));
-      
+
       if(isDebug || selectNumber > 2) {
-        if(button(width * .9f, height * .1f, 24f * RateY, primeColor, secondColor)) 
+        if(button(width * .9f, height * .1f, 24f * RateY, primeColor, secondColor))
           boxTextRight("Make New Stage", width * .99f, height * .20f, int(12 * RateY), 0, secondColor);
         noStroke();
         fill(255);
         note( width * .9f, height * .1f, 12f * RateY, 0f );
-        
-        if(button(width * .1f, height * .1f, 24f * RateY, primeColor, secondColor)) 
+
+        if(button(width * .1f, height * .1f, 24f * RateY, primeColor, secondColor))
           boxText(StageActionDescription[StageAction], width * .05f, height * .20f, int(12 * RateY), 0, secondColor);
         noStroke();
         fill(255);
@@ -139,13 +139,13 @@ void draw() {
             break;
         }
       }
-      
+
       capsule( "Sum of Stage : " + stage.size(), width * 0.8, height * 0.95, int(12 * RateY), primeColor );
-        
+
       boolean overMouse;
       overMouse = false;
       for(int k = 0; k <= max( 3, ceil((stage.size() - 1) / 8)); k++) {
-        
+
         selectNumber = constrain(k, 0, seaColor.length - 1);
         primeColor = color(red(seaColor[selectNumber]) + red(seaWideColor[selectNumber]) * cos(radians(frameCount)),
           green(seaColor[selectNumber]) + green(seaWideColor[selectNumber]) * cos(radians(frameCount)),
@@ -153,11 +153,11 @@ void draw() {
         secondColor = color(red(seaColor[selectNumber]) + red(seaWideColor[selectNumber]) * -cos(radians(frameCount)),
           green(seaColor[selectNumber]) + green(seaWideColor[selectNumber]) * -cos(radians(frameCount)),
           blue(seaColor[selectNumber]) + blue(seaWideColor[selectNumber]) * -cos(radians(frameCount)));
-        
+
         capsule( seas[selectNumber], width * ( .5f + -selectSea + k) + seaSlide, height * .1f, int(48 * RateY), primeColor);
         capsule( seasDescription[selectNumber], width * ( .5f + -selectSea + k) + seaSlide, height * .22f, int(12 * RateY), primeColor);
-        
-        
+
+
         for(int n = 0; n < 8; n++) {
           if(k * 8 + n >= stage.size()) break;
           boolean isCleared = ((Space) stage.get(k * 8 + n)).isClear;
@@ -167,7 +167,7 @@ void draw() {
           ellipseMode(RADIUS);
           textAlign(CENTER, CENTER);
           if(dist(mouseX, mouseY, width * arrayX[n], height * arrayY[n]) < 24f * RateY && k == selectSea) {
-            
+
             if(isCleared) fill(((Space) stage.get(k * 8 + n)).Color[0]);
             if(isCleared) stroke(((Space) stage.get(k * 8 + n)).Color[0]);
             textSize(map(AnimeTitle, 0, 10, 18, 36) * RateY);
@@ -177,12 +177,12 @@ void draw() {
             stroke(secondColor);
             if(isCleared) stroke(((Space) stage.get(k * 8 + n)).Color[0]);
             arc(width * ( arrayX[n] + float(-selectSea + k) ) + seaSlide, height * arrayY[n], 24f * RateY + 4f, 24f * RateY + 4f, 0f, TAU);
-            
+
             capsule(((Space)stage.get(n + k * 8)).comment, width * ( arrayX[n] - .5f) / 2f + width / 2f, height * arrayY[n] - 36 * RateY,
               int(map(AnimeTitle, 0, 10, 1, 18) * RateY), (isCleared) ? ((Space) stage.get(k * 8 + n)).Color[0] : secondColor);
             overMouse = true;
           } else {
-            
+
             textSize(18 * RateY);
             arc(width * ( arrayX[n] + float(-selectSea + k) ) + seaSlide, height * arrayY[n], 12f * RateY, 12f * RateY, 0f, TAU);
             noFill();
@@ -190,28 +190,28 @@ void draw() {
             if(isCleared) stroke(((Space) stage.get(k * 8 + n)).Color[0]);
             arc(width * ( arrayX[n] + float(-selectSea + k) ) + seaSlide,
               height * arrayY[n], 12f * RateY + 3f + ((isCleared) ? 4f : 0f), 12f * RateY + 3f + ((isCleared) ? 4f : 0f), 0f, TAU);
-            
+
           }
           fill(255);
           text("" + (n + 1 + k * 8), float(width) * ( arrayX[n] + float(-selectSea + k)) + seaSlide, float(height) * arrayY[n] - 2);
-          
+
         }
-        
+
       }
-      
+
       if(!isOverSea && overMouse) {
         //ならす
-        snd[8].play();
-        snd[8].cue(100);
+        //snd[8].play();
+        //snd[8].cue(100);
       }
       isOverSea = overMouse;
-      
+
       if(seaSlide < 0) seaSlide += abs(seaSlide / 8) + 1;
       else if(seaSlide > 0) seaSlide -= abs(seaSlide / 8) + 1;
-      
+
       if(overMouse) AnimeTitle = constrain(AnimeTitle + 1, 0, 10);
       else AnimeTitle = constrain(AnimeTitle - 1, 0, 10);
-        
+
       break;
     case 2:
       //プレイ
@@ -219,7 +219,7 @@ void draw() {
         isValidHistory = true;
         History.clear();
         currentHistory = 0;
-        
+
         Space HisBuf = new Space();
         HisBuf.Copy(space);
         HisBuf.afterProcess();
@@ -227,7 +227,7 @@ void draw() {
         currentHistory++;
         HintID = 0;
       }
-      
+
       if(space.Draw(MoveDirection, MoveID)) MoveDirection = MoveID = -1;
       if(AnimeSlide > 0 && selected > -1) { //selected >= 0) {
         for(int n = 0; n < 4; n++) {
@@ -248,11 +248,11 @@ void draw() {
         else AnimeSlide = constrain(AnimeSlide - 1, 0, space.AnimeTime);
       }
       if(AnimeSlide == 0) selected = -1;
-    
-      
+
+
       boxText(((isEdit) ? "TestPlay" : nf(playStage + 1, 2)) + " : " + space.comment, 8f, 8f, int(24 * RateY), width - 16, space.Color[0]);
-      
-      
+
+
       if(HintTime > 0) {
         HintTime--;
         if(currentHistory == 1 && space.Hint.size() != 0) {
@@ -261,7 +261,7 @@ void draw() {
             stroke(255);
             strokeWeight(5 * RateY);
             noFill();
-            
+
             Swipe Hint = (Swipe) space.Hint.get(n);
             arc(Hint.x * space.r + space.x, Hint.y * space.r + space.y, space.r * 0.5f + 3f, space.r * 0.5f + 3f, 0f, TAU);
             strokeWeight(1 * RateY);
@@ -281,20 +281,20 @@ void draw() {
           capsule("Show Hint to \"Reset\".", width * .5f, height * .15f, int(12 * RateY), 0);
         }
       }
-      
-      
+
+
       //クリア判定
       if(space.isClear() || space.isFailed()) {
         if(AnimeClear == 1) {
           if(space.isClear()) {
             ((Space) stage.get(playStage)).isClear = true;
             if(isEdit) isTest = true;
-            snd[1].play();
-            snd[1].rewind();
+            //snd[1].play();
+            //snd[1].rewind();
           }
           else if(space.isFailed()) {
-            snd[2].play();
-            snd[2].rewind();
+            //snd[2].play();
+            //snd[2].rewind();
           }
           isValidHistory = false;
         }
@@ -304,21 +304,21 @@ void draw() {
           float textX = width / 2f, textY = height / 2f;
           String Text = ((space.isClear()) ? "Clear!" : "Failed...");
           float widthBuf = 0;
-          
+
           noStroke();
           fill(lerpColor(space.Color[0], space.Color[9], float(abs(frameCount % 60 - 30)) / 30f), map(AnimeClear, 0, frameRate, 0f, 255f));
           textSize(48 * RateY);
           textAlign(LEFT, CENTER);
           for(int n = 0; n < Text.length(); n++) {
-            
+
             text(Text.charAt(n), textX - textWidth(Text) / 2f + widthBuf,
               textY - max( 0f, ( AnimeClear - n * 5 ) * (frameRate - ( AnimeClear - n * 5 )) / frameRate));
-              
+
             widthBuf += textWidth(Text.charAt(n));
           }
         }
         popStyle();
-        
+
         if(AnimeClear > frameRate * 4) {
           isValidHistory = false;
           AnimeClear = 0;
@@ -333,15 +333,15 @@ void draw() {
           }
         }
       }
-      
+
       if(space.inRange() != -1) {
         if(mouseOver == false) {
-          snd[5].play();
-          snd[5].cue(150);
+          //snd[5].play();
+          //snd[5].cue(150);
         }
         mouseOver = true;
       } else mouseOver = false;
-      
+
       LeftMenu();
       RightMenu();
       break;
@@ -354,31 +354,31 @@ void draw() {
       Board.setColor(LowColor, HighColor);
       Select.setColor(LowColor, HighColor);
       Edit.setComment(Title);
-      
+
       fill(0);
       textSize(18 * RateX);
       textAlign(RIGHT, TOP);
       text(((Title == "") ? "No Title - *Press Enter* to Save" : "[ " + Title + " ]"), width - 10 * RateX, 40 * RateY);
-      
+
       if(whichColor) HighColor = color(RedBar, GreenBar, BlueBar);
       else LowColor = color(RedBar, GreenBar, BlueBar);
-      
-      if(button(width * .05f, height * .25f, 12f * RateY, LowColor, LowColor) || !whichColor) 
+
+      if(button(width * .05f, height * .25f, 12f * RateY, LowColor, LowColor) || !whichColor)
         boxText("Lower Color", width * .09f, height * .25f - 6f * RateY, int(12 * RateY), 0, LowColor);
-      
-      if(button(width * .05f, height * .35f, 12f * RateY, HighColor, HighColor) || whichColor) 
+
+      if(button(width * .05f, height * .35f, 12f * RateY, HighColor, HighColor) || whichColor)
         boxText("Higher Color", width * .09f, height * .35f - 6f * RateY, int(12 * RateY), 0, HighColor);
-      
+
       Edit.Draw(-1, 0);
       Board.Draw(-1, 0);
       Select.Draw(-1, 0);
-      
-      if(button(width * .9f, height * .9f, 24f * RateY, color(0), color(100))) 
+
+      if(button(width * .9f, height * .9f, 24f * RateY, color(0), color(100)))
         boxTextRight("Home", width * .8f, height * .9f, int(12 * RateY), 0, color(100));
       noStroke();
       fill(255);
       home( width * .9f, height * .9f, int(12f * RateY), 0f );
-      
+
       if(button(width * .9f, height * .73f, int(24f * RateY), color(0), color(100))) {
         boxTextRight("Test Play", width * .8f, height * .73f, int(12 * RateY), 0, color(100));
         if(Edit.List.size() <= 1) boxTextRight("#Deploy more Bubble", width * .8f, height * .73f + 20 * RateY, int(8 * RateY), 0, color(100));
@@ -386,25 +386,25 @@ void draw() {
       noStroke();
       fill(255);
       note( width * .9f, height * .73f, int(12f * RateY), 0f );
-      
-      if(button(width * .9f, height * .56f, int(24f * RateY), color(0), color(100))) { 
+
+      if(button(width * .9f, height * .56f, int(24f * RateY), color(0), color(100))) {
         boxTextRight("Save", width * .8f, height * .56f, int(12 * RateY), 0, color(100));
         if(!isTest) boxTextRight("#Test didn't pass", width * .8f, height * .56f + 20 * RateY, int(8 * RateY), 0, color(100));
         if(Edit.comment.equals("")) boxTextRight("#Name this Stage", width * .8f, height * .60f + 20 * RateY, int(8 * RateY), 0, color(100));
-        
+
       }
       noStroke();
       fill(255);
       cardBoard( width * .9f, height * .56f - 2f, int((12f + 2f) * RateY), 0f );
-      
+
       capsule("Current Bubble", Select.ListX(0) - 30 * RateX, Select.ListY(0) - 24 * RateY, int(12 * RateY), Edit.Color[BubbleNumber%10]);
       if(Select.inRange(0)) boxTextRight("Camera will be optimized", Select.ListX(0) - 28 * RateX, Select.ListY(0) - 6 * RateY, int(12 * RateY), 0, Select.Color[BubbleNumber%10]);
-      
+
       if(SavedAnime > 0) {
         SavedAnime--;
         capsule("Saved !", width * .5f, height * .5f, int(32 * RateY), color(0));
       }
-        
+
       break;
     case 4:
       pushMatrix();
@@ -418,24 +418,24 @@ void draw() {
     cp5.getController("RedBar")
       .setColor(new CColor(color(RedBar, 0, 0), color(200),
       color(RedBar, 0, 0), color(0), color(255)));
-    
+
     cp5.getController("GreenBar").show();
     cp5.getController("GreenBar")
       .setColor(new CColor(color(0, GreenBar, 0), color(200),
       color(0, GreenBar, 0), color(0), color(255)));
-    
+
     cp5.getController("BlueBar").show();
     cp5.getController("BlueBar")
       .setColor(new CColor(color(0, 0, BlueBar), color(200),
       color(0, 0, BlueBar), color(0), color(255)));
     cp5.getController("Title").show();
-    
-    
+
+
   } else {
     cp5.getController("RedBar").hide();
     cp5.getController("GreenBar").hide();
     cp5.getController("BlueBar").hide();
     cp5.getController("Title").hide();
-    
+
   }
 }
